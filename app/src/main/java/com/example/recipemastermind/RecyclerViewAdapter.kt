@@ -8,10 +8,12 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.bumptech.glide.Glide
 import com.example.recipemastermind.Movie
 import com.example.recipemastermind.R
 import com.velmurugan.cardviewandroidkotlin.RecyclerViewAdapter.MyViewHolder
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+
 
 class RecyclerViewAdapter constructor(private val movieList: List<Movie>) :
     RecyclerView.Adapter<MyViewHolder>() {
@@ -25,15 +27,16 @@ class RecyclerViewAdapter constructor(private val movieList: List<Movie>) :
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val movie = movieList[position]
         holder.title.text = movie.title
+        //holder.image.setBackgroundResource(movie.image)
         Glide.with(holder.itemView.context)
             .load(movie.image)
+            .centerCrop()
+            .override(holder.itemView.width, holder.itemView.height)
             .into(holder.image)
         holder.cardView.setOnClickListener {
             clickListener!!.onItemClick(movie)
         }
-        holder.rating.text = "Rating : ${movie.rating}"
     }
-
 
 
     override fun getItemCount(): Int {
@@ -48,7 +51,6 @@ class RecyclerViewAdapter constructor(private val movieList: List<Movie>) :
         val title: TextView = itemView.findViewById(R.id.title)
         val image: ImageView = itemView.findViewById(R.id.image)
         val cardView: CardView = itemView.findViewById(R.id.carView)
-        val rating: TextView = itemView.findViewById(R.id.textRating)
 
     }
 }

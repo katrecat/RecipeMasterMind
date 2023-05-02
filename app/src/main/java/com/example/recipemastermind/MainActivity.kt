@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity() {
                 for (recipeIdSnapshot in dataSnapshot.children) {
                     val recipeName = recipeIdSnapshot.child("name").value.toString()
                     val imageURL = recipeIdSnapshot.child("imageURL").value.toString()
-                    val movie = Movie(recipeName, imageURL, 0F)
+                    val movie = Movie(recipeName, imageURL)
                     movieList.add(movie)
                 }
                 recyclerViewAdapter?.notifyDataSetChanged()
@@ -66,29 +66,6 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
-        /*recipeRef.addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                // Получаем значения imageURL и имени блюда из dataSnapshot
-                val imageURL = dataSnapshot.child("imageURL").getValue(String::class.java)
-                val ingredientsList = dataSnapshot.child("ingredients")
-                    .getValue(object : GenericTypeIndicator<List<Map<String, String>>>() {})
-                val recipeName = dataSnapshot.child("ingredients/0/name").getValue(String::class.java)
-
-                val imageView: ImageView = findViewById(R.id.image)
-
-                Glide.with(this@MainActivity)
-                    .load(imageURL)
-                    .into(imageView)
-
-                var movie = Movie( "$recipeName", R.drawable.coco, 8.0F)
-                movieList.add(movie)
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                // Обрабатываем ошибки чтения данных
-            }
-        })*/
-
 
 }
 
