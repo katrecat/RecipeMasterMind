@@ -2,12 +2,21 @@ package com.example.recipemastermind
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.GenericTypeIndicator
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import com.velmurugan.cardviewandroidkotlin.ClickListener
 import com.velmurugan.cardviewandroidkotlin.RecyclerViewAdapter
 
@@ -37,26 +46,47 @@ class MainActivity : AppCompatActivity() {
         recyclerView!!.adapter = recyclerViewAdapter
         prepareMovie()
     }
-
     private fun prepareMovie() {
-        var movie = Movie("Star Wars The Last Jedi", R.drawable.star_war, 8.0F)
-        movieList.add(movie)
-        movie = Movie("Coco", R.drawable.coco,8.3F)
-        movieList.add(movie)
-        movie = Movie("Justice League", R.drawable.justice_league,9.0F)
-        movieList.add(movie)
-        movie = Movie("Thor: Ragnarok", R.drawable.thor_ragnarok, 8.5F)
-        movieList.add(movie)
-        movie = Movie("Star Wars The Last Jedi", R.drawable.star_war, 8.4F)
-        movieList.add(movie)
-        movie = Movie("Coco", R.drawable.coco,8.2F)
-        movieList.add(movie)
-        movie = Movie("Justice League", R.drawable.justice_league,8.4F)
-        movieList.add(movie)
-        movie = Movie("Thor: Ragnarok", R.drawable.thor_ragnarok, 8.9F)
-        movieList.add(movie)
-        recyclerViewAdapter?.notifyDataSetChanged()
+        val database = Firebase.database.reference
+        val recipeRef = database.child("recipe").child("-NTxXR-kLLPC_Blr6iD-")
 
-    }
+        recipeRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (recipeIdSnapshot in dataSnapshot.children) {
+                    val recipeName = recipeIdSnapshot.child("name").value.toString()
+                    val movie = Movie(recipeName, R.drawable.coco, 0F)
+                    movieList.add(movie)
+                }
+                recyclerViewAdapter?.notifyDataSetChanged()
+            }
 
-}
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.e("Firebase", "Error reading data from Firebase", databaseError.toException())
+            }
+        })
+        /*recipeRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                // Получаем значения imageURL и имени блюда из dataSnapshot
+                val imageURL = dataSnapshot.child("imageURL").getValue(String::class.java)
+                val ingredientsList = dataSnapshot.child("ingredients")
+                    .getValue(object : GenericTypeIndicator<List<Map<String, String>>>() {})
+                val recipeName = dataSnapshot.child("ingredients/0/name").getValue(String::class.java)
+
+                val imageView: ImageView = findViewById(R.id.image)
+
+                Glide.with(this@MainActivity)
+                    .load(imageURL)
+                    .into(imageView)
+
+                var movie = Movie( "$recipeName", R.drawable.coco, 8.0F)
+                movieList.add(movie)
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Обрабатываем ошибки чтения данных
+            }
+        })*/
+
+
+}}
+
