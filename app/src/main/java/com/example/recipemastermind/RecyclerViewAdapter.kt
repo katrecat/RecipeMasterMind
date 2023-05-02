@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.bumptech.glide.Glide
 import com.example.recipemastermind.Movie
 import com.example.recipemastermind.R
 import com.velmurugan.cardviewandroidkotlin.RecyclerViewAdapter.MyViewHolder
@@ -24,12 +25,16 @@ class RecyclerViewAdapter constructor(private val movieList: List<Movie>) :
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val movie = movieList[position]
         holder.title.text = movie.title
-        holder.image.setBackgroundResource(movie.image)
+        Glide.with(holder.itemView.context)
+            .load(movie.image)
+            .into(holder.image)
         holder.cardView.setOnClickListener {
             clickListener!!.onItemClick(movie)
         }
         holder.rating.text = "Rating : ${movie.rating}"
     }
+
+
 
     override fun getItemCount(): Int {
         return movieList.size

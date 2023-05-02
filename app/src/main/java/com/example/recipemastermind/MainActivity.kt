@@ -54,7 +54,8 @@ class MainActivity : AppCompatActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (recipeIdSnapshot in dataSnapshot.children) {
                     val recipeName = recipeIdSnapshot.child("name").value.toString()
-                    val movie = Movie(recipeName, R.drawable.coco, 0F)
+                    val imageURL = recipeIdSnapshot.child("imageURL").value.toString()
+                    val movie = Movie(recipeName, imageURL, 0F)
                     movieList.add(movie)
                 }
                 recyclerViewAdapter?.notifyDataSetChanged()
@@ -64,6 +65,7 @@ class MainActivity : AppCompatActivity() {
                 Log.e("Firebase", "Error reading data from Firebase", databaseError.toException())
             }
         })
+    }
         /*recipeRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 // Получаем значения imageURL и имени блюда из dataSnapshot
@@ -88,5 +90,5 @@ class MainActivity : AppCompatActivity() {
         })*/
 
 
-}}
+}
 
