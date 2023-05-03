@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/recipe_card"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -8,10 +9,10 @@
         android:id="@+id/text_recipe_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textStyle="bold"
         android:padding="16dp"
-        android:text="Recipe Name" />
+        android:text="Recipe Name"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <!-- Recipe Image -->
     <ImageView
@@ -26,23 +27,23 @@
         android:id="@+id/text_ingredients"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
         android:padding="16dp"
-        android:text="Ingredients:" />
+        android:text="Ingredients:"
+        android:textSize="16sp" />
 
+    <!-- Steps -->
     <ListView
         android:id="@+id/listview_ingredients"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <!-- Steps -->
     <TextView
         android:id="@+id/text_steps"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
         android:padding="16dp"
-        android:text="Steps:" />
+        android:text="Steps:"
+        android:textSize="16sp" />
 
     <ListView
         android:id="@+id/listview_steps"

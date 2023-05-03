@@ -1,5 +1,6 @@
 package com.example.recipemastermind
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -19,6 +20,7 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.velmurugan.cardviewandroidkotlin.ClickListener
 import com.velmurugan.cardviewandroidkotlin.RecyclerViewAdapter
+import com.velmurugan.cardviewandroidkotlin.SecondActivity
 
 
 class MainActivity : AppCompatActivity() {
@@ -36,10 +38,19 @@ class MainActivity : AppCompatActivity() {
         val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
         recyclerView!!.layoutManager = layoutManager
         recyclerViewAdapter!!.setOnItemClickListener(object : ClickListener<Movie> {
-            override fun onItemClick(data: Movie) {
-                Toast.makeText(this@MainActivity, data.title, Toast.LENGTH_SHORT).show()
+            override fun onItemClick(data: Movie, view: View) {
+                if (view.id == R.id.image) {
+                    val intent = Intent(this@MainActivity, SecondActivity::class.java)
+                    startActivity(intent)
+                } else {
+                    Toast.makeText(this@MainActivity, data.title, Toast.LENGTH_SHORT).show()
+                }
             }
+
         })
+
+
+
 
         val firebase : DatabaseReference = FirebaseDatabase.getInstance().getReference()
 

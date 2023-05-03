@@ -1,5 +1,6 @@
 package com.velmurugan.cardviewandroidkotlin
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +13,6 @@ import com.example.recipemastermind.Movie
 import com.example.recipemastermind.R
 import com.velmurugan.cardviewandroidkotlin.RecyclerViewAdapter.MyViewHolder
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 
 
 class RecyclerViewAdapter constructor(private val movieList: List<Movie>) :
@@ -33,8 +33,13 @@ class RecyclerViewAdapter constructor(private val movieList: List<Movie>) :
             .centerCrop()
             .override(holder.itemView.width, holder.itemView.height)
             .into(holder.image)
+
+        // Определить ImageButton и назначить ему слушателя нажатия
         holder.cardView.setOnClickListener {
-            clickListener!!.onItemClick(movie)
+            clickListener?.onItemClick(movie, holder.itemView)
+        }
+        holder.image.setOnClickListener {
+            clickListener?.onItemClick(movie, it)
         }
     }
 
@@ -50,11 +55,11 @@ class RecyclerViewAdapter constructor(private val movieList: List<Movie>) :
     inner class MyViewHolder(itemView: View) : ViewHolder(itemView) {
         val title: TextView = itemView.findViewById(R.id.title)
         val image: ImageView = itemView.findViewById(R.id.image)
-        val cardView: CardView = itemView.findViewById(R.id.carView)
+        val cardView: CardView = itemView.findViewById(R.id.cardView)
 
     }
 }
 
 interface ClickListener<T> {
-    fun onItemClick(data: T)
+    fun onItemClick(data: T, view: View)
 }
