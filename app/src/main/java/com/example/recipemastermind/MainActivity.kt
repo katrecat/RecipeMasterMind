@@ -5,16 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.GenericTypeIndicator
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -45,6 +42,7 @@ class MainActivity : AppCompatActivity() {
                     intent.putExtra("recipeName", data.title)
                     intent.putExtra("imageURL", data.image)
                     intent.putExtra("ingredients", data.ingredients.map { it.name}.toTypedArray())
+                    intent.putExtra("steps", data.steps.map { it.step }.toTypedArray())
                     startActivity(intent)
                 } else {
                     Toast.makeText(this@MainActivity, data.title, Toast.LENGTH_SHORT).show()
@@ -65,9 +63,11 @@ class MainActivity : AppCompatActivity() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (recipeIdSnapshot in dataSnapshot.children) {
                     var number_ingredients = 0
+                    var number_steps = 0
                     val recipeName = recipeIdSnapshot.child("name").value.toString()
                     val imageURL = recipeIdSnapshot.child("imageURL").value.toString()
                     val ingredientsList = mutableListOf<Ingredient>()
+                    val stepsList = mutableListOf<Steps>()
                     for (ingredientSnapshot in recipeIdSnapshot.child("ingredients").children) {
                         var ingredientName = ingredientSnapshot.child("name").value.toString()
                         number_ingredients++
@@ -76,7 +76,15 @@ class MainActivity : AppCompatActivity() {
                         val ingredient = Ingredient(ingredientName, ingredientQuantity)
                         ingredientsList.add(ingredient)
                     }
-                    val movie = Movie(recipeName, imageURL, ingredientsList)
+
+                    for (stepSnapshot in recipeIdSnapshot.child("steps").children) {
+                        val stepName = stepSnapshot.value.toString()
+                        number_steps++
+                        val step = Steps("$number_steps) $stepName")
+                        stepsList.add(step)
+                    }
+
+                    val movie = Movie(recipeName, imageURL, ingredientsList, stepsList)
                     movieList.add(movie)
                 }
                 recyclerViewAdapter?.notifyDataSetChanged()

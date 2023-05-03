@@ -34,8 +34,9 @@
     <!-- Steps -->
     <ListView
         android:id="@+id/listview_ingredients"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:nestedScrollingEnabled="false" />
 
     <TextView
         android:id="@+id/text_steps"
@@ -47,7 +48,8 @@
 
     <ListView
         android:id="@+id/listview_steps"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:nestedScrollingEnabled="false" />
 
 </LinearLayout>
