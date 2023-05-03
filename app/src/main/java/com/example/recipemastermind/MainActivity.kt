@@ -41,6 +41,8 @@ class MainActivity : AppCompatActivity() {
             override fun onItemClick(data: Movie, view: View) {
                 if (view.id == R.id.image) {
                     val intent = Intent(this@MainActivity, SecondActivity::class.java)
+                    intent.putExtra("recipeName", data.title)
+                    intent.putExtra("imageURL", data.image)
                     startActivity(intent)
                 } else {
                     Toast.makeText(this@MainActivity, data.title, Toast.LENGTH_SHORT).show()
