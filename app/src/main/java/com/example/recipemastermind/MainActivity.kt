@@ -38,11 +38,13 @@ class MainActivity : AppCompatActivity() {
         val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
         recyclerView!!.layoutManager = layoutManager
         recyclerViewAdapter!!.setOnItemClickListener(object : ClickListener<Movie> {
+
             override fun onItemClick(data: Movie, view: View) {
                 if (view.id == R.id.image) {
                     val intent = Intent(this@MainActivity, SecondActivity::class.java)
                     intent.putExtra("recipeName", data.title)
                     intent.putExtra("imageURL", data.image)
+                    intent.putExtra("ingredients", data.ingredients.map { it.name}.toTypedArray())
                     startActivity(intent)
                 } else {
                     Toast.makeText(this@MainActivity, data.title, Toast.LENGTH_SHORT).show()
@@ -50,9 +52,6 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
-
-
-
 
         val firebase : DatabaseReference = FirebaseDatabase.getInstance().getReference()
 
@@ -62,13 +61,22 @@ class MainActivity : AppCompatActivity() {
     private fun prepareMovie() {
         val database = Firebase.database.reference
         val recipeRef = database.child("recipe").child("-NTxXR-kLLPC_Blr6iD-")
-
         recipeRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (recipeIdSnapshot in dataSnapshot.children) {
+                    var number_ingredients = 0
                     val recipeName = recipeIdSnapshot.child("name").value.toString()
                     val imageURL = recipeIdSnapshot.child("imageURL").value.toString()
-                    val movie = Movie(recipeName, imageURL)
+                    val ingredientsList = mutableListOf<Ingredient>()
+                    for (ingredientSnapshot in recipeIdSnapshot.child("ingredients").children) {
+                        var ingredientName = ingredientSnapshot.child("name").value.toString()
+                        number_ingredients++
+                        val ingredientQuantity = ingredientSnapshot.child("quantity").value.toString()
+                        ingredientName = "$number_ingredients) " + ingredientName + " [" + ingredientQuantity +"]"
+                        val ingredient = Ingredient(ingredientName, ingredientQuantity)
+                        ingredientsList.add(ingredient)
+                    }
+                    val movie = Movie(recipeName, imageURL, ingredientsList)
                     movieList.add(movie)
                 }
                 recyclerViewAdapter?.notifyDataSetChanged()
