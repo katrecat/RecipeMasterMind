@@ -91,9 +91,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="false"
             android:gravity="center"
+            android:minHeight="48dp"
+            android:onClick="showTimePickerDialog"
             android:text="00:00:00"
             android:textSize="16sp" />
+
 
         <!-- Stop Button -->
         <Button
@@ -105,5 +110,7 @@
             android:textSize="16sp" />
 
     </LinearLayout>
+
+
 
 </RelativeLayout>

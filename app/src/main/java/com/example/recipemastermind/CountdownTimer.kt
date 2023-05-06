@@ -2,10 +2,10 @@ import android.os.CountDownTimer
 import android.widget.Button
 import android.widget.TextView
 
-class CountdownTimer(private val durationMillis: Long, private val intervalMillis: Long) {
+class CountdownTimer(var durationMillis: Long, private val intervalMillis: Long) {
     private var countDownTimer: CountDownTimer? = null
     private var isRunning = false
-    private var timeRemainingMillis: Long = 0
+    var timeRemainingMillis: Long = 0
 
     fun start(
         textView: TextView,

@@ -1,6 +1,7 @@
 package com.velmurugan.cardviewandroidkotlin
 
 import CountdownTimer
+import TimePickerFragment
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -23,6 +24,8 @@ class SecondActivity : AppCompatActivity() {
     private lateinit var textViewCountdown: TextView
     private lateinit var buttonStartPause: Button
     private lateinit var buttonStop: Button
+    private lateinit var customTime: String // Add this variable to store the custom time
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.recipe)
@@ -60,13 +63,19 @@ class SecondActivity : AppCompatActivity() {
         stepsRecyclerView.adapter = stepsAdapter
 
 
-        countdownTimer = CountdownTimer(600000, 1000) // Example duration: 10 minutes
+        countdownTimer = CountdownTimer(0, 1000) // Example duration: 10 minutes
 
         buttonStartPause.setOnClickListener {
             if (countdownTimer.isRunning()) {
                 countdownTimer.pause()
                 buttonStartPause.text = "Start"
             } else {
+                val selectedTime = textViewCountdown.text.toString()
+                val durationMillis = parseTimeToMillis(selectedTime)
+
+                // Set the time remaining to the selected duration
+                countdownTimer.timeRemainingMillis = durationMillis
+
                 countdownTimer.start(textViewCountdown, buttonStartPause, buttonStop)
             }
         }
@@ -75,6 +84,16 @@ class SecondActivity : AppCompatActivity() {
             countdownTimer.stop(textViewCountdown, buttonStartPause, buttonStop)
         }
     }
+
+    private fun parseTimeToMillis(time: String): Long {
+        val parts = time.split(":")
+        val hours = parts[0].toLong()
+        val minutes = parts[1].toLong()
+        val seconds = parts[2].toLong()
+        return  (hours * 3600 + minutes * 60 + seconds) * 1000
+    }
+
+
 
     private inner class IngredientsAdapter(private val ingredientsList: List<String>) :
         RecyclerView.Adapter<IngredientsAdapter.ViewHolder>() {
@@ -97,6 +116,10 @@ class SecondActivity : AppCompatActivity() {
         inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             val textView: TextView = itemView.findViewById(android.R.id.text1)
         }
+    }
+    fun showTimePickerDialog(view: View) {
+        val timePicker = TimePickerFragment()
+        timePicker.show(supportFragmentManager, "timePicker")
     }
 
     private inner class StepsAdapter(private val stepsList: List<String>) :
