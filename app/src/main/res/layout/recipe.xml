@@ -1,55 +1,63 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/recipe_card"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scroll_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <!-- Recipe Name -->
-    <TextView
-        android:id="@+id/text_recipe_name"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="Recipe Name"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:orientation="vertical">
 
-    <!-- Recipe Image -->
-    <ImageView
-        android:id="@+id/image_recipe"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/coco" />
+        <!-- Recipe Name -->
+        <TextView
+            android:id="@+id/text_recipe_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="Recipe Name"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-    <!-- Ingredients -->
-    <TextView
-        android:id="@+id/text_ingredients"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="Ingredients:"
-        android:textSize="16sp" />
+        <!-- Recipe Image -->
+        <ImageView
+            android:id="@+id/image_recipe"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/coco" />
 
-    <!-- Steps -->
-    <ListView
-        android:id="@+id/listview_ingredients"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:nestedScrollingEnabled="false" />
+        <!-- Ingredients -->
+        <TextView
+            android:id="@+id/text_ingredients"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="Ingredients:"
+            android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/text_steps"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:text="Steps:"
-        android:textSize="16sp" />
+        <!-- Ingredients List -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_ingredients"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false" />
 
-    <ListView
-        android:id="@+id/listview_steps"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:nestedScrollingEnabled="false" />
+        <!-- Steps -->
+        <TextView
+            android:id="@+id/text_steps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:text="Steps:"
+            android:textSize="16sp" />
 
-</LinearLayout>
+        <!-- Steps List -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_steps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false" />
+
+    </LinearLayout>
+
+</ScrollView>
