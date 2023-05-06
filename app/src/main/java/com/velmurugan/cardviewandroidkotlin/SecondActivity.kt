@@ -1,9 +1,11 @@
 package com.velmurugan.cardviewandroidkotlin
 
+import CountdownTimer
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -17,7 +19,10 @@ class SecondActivity : AppCompatActivity() {
     private lateinit var recipeImageView: ImageView
     private lateinit var ingredientsRecyclerView: RecyclerView
     private lateinit var stepsRecyclerView: RecyclerView
-
+    private lateinit var countdownTimer: CountdownTimer
+    private lateinit var textViewCountdown: TextView
+    private lateinit var buttonStartPause: Button
+    private lateinit var buttonStop: Button
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.recipe)
@@ -29,11 +34,16 @@ class SecondActivity : AppCompatActivity() {
         val stepsArray = intent.getStringArrayExtra("steps")
         val stepsList = stepsArray?.toList() ?: emptyList<String>()
 
+
+
         recipeNameTextView = findViewById(R.id.text_recipe_name)
         recipeNameTextView.text = recipeName
         recipeImageView = findViewById(R.id.image_recipe)
         ingredientsRecyclerView = findViewById(R.id.recyclerview_ingredients)
         stepsRecyclerView = findViewById(R.id.recyclerview_steps)
+        textViewCountdown = findViewById(R.id.text_countdown)
+        buttonStartPause = findViewById(R.id.button_start_pause)
+        buttonStop = findViewById(R.id.button_stop)
 
         Glide.with(this)
             .load(imageURL)
@@ -48,6 +58,22 @@ class SecondActivity : AppCompatActivity() {
 
         val stepsAdapter = StepsAdapter(stepsList)
         stepsRecyclerView.adapter = stepsAdapter
+
+
+        countdownTimer = CountdownTimer(600000, 1000) // Example duration: 10 minutes
+
+        buttonStartPause.setOnClickListener {
+            if (countdownTimer.isRunning()) {
+                countdownTimer.pause()
+                buttonStartPause.text = "Start"
+            } else {
+                countdownTimer.start(textViewCountdown, buttonStartPause, buttonStop)
+            }
+        }
+
+        buttonStop.setOnClickListener {
+            countdownTimer.stop(textViewCountdown, buttonStartPause, buttonStop)
+        }
     }
 
     private inner class IngredientsAdapter(private val ingredientsList: List<String>) :
