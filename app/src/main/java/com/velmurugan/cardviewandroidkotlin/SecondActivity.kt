@@ -2,6 +2,7 @@ package com.velmurugan.cardviewandroidkotlin
 
 import CountdownTimer
 import TimePickerFragment
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +26,7 @@ class SecondActivity : AppCompatActivity() {
     private lateinit var buttonStartPause: Button
     private lateinit var buttonStop: Button
     private lateinit var customTime: String // Add this variable to store the custom time
+    private lateinit var context: Context // Add this variable to store the context
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +39,7 @@ class SecondActivity : AppCompatActivity() {
         val stepsArray = intent.getStringArrayExtra("steps")
         val stepsList = stepsArray?.toList() ?: emptyList<String>()
 
-
+        context = this // Store the context of the activity
 
         recipeNameTextView = findViewById(R.id.text_recipe_name)
         recipeNameTextView.text = recipeName
@@ -62,8 +64,7 @@ class SecondActivity : AppCompatActivity() {
         val stepsAdapter = StepsAdapter(stepsList)
         stepsRecyclerView.adapter = stepsAdapter
 
-
-        countdownTimer = CountdownTimer(0, 1000) // Example duration: 10 minutes
+        countdownTimer = CountdownTimer(0, 1000, context) // Pass the context parameter
 
         buttonStartPause.setOnClickListener {
             if (countdownTimer.isRunning()) {

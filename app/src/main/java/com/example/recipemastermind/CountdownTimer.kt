@@ -1,10 +1,19 @@
+import android.content.Context
 import android.os.CountDownTimer
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.widget.Button
 import android.widget.TextView
 
-class CountdownTimer(var durationMillis: Long, private val intervalMillis: Long) {
+class CountdownTimer(
+    private var durationMillis: Long,
+    private val intervalMillis: Long,
+    private val context: Context
+) {
     private var countDownTimer: CountDownTimer? = null
     private var isRunning = false
+    private lateinit var vibrator: Vibrator
+
     var timeRemainingMillis: Long = 0
 
     fun start(
@@ -12,6 +21,8 @@ class CountdownTimer(var durationMillis: Long, private val intervalMillis: Long)
         startButton: Button,
         stopButton: Button
     ) {
+        vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+
         countDownTimer = object : CountDownTimer(timeRemainingMillis, intervalMillis) {
             override fun onTick(millisUntilFinished: Long) {
                 timeRemainingMillis = millisUntilFinished
@@ -22,6 +33,7 @@ class CountdownTimer(var durationMillis: Long, private val intervalMillis: Long)
                 isRunning = false
                 updateTimerText(textView)
                 startButton.text = "Start"
+                vibrate()
             }
         }
 
@@ -70,6 +82,21 @@ class CountdownTimer(var durationMillis: Long, private val intervalMillis: Long)
             "0$value"
         } else {
             value.toString()
+        }
+    }
+
+    private fun vibrate() {
+        // Check if the device has a vibrator
+        if (vibrator.hasVibrator()) {
+            // Vibrate for 500 milliseconds
+            val vibrationDuration = 1000L
+
+            // Check if the VibrationEffect class is available
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                vibrator.vibrate(VibrationEffect.createOneShot(vibrationDuration, VibrationEffect.DEFAULT_AMPLITUDE))
+            } else {
+                vibrator.vibrate(vibrationDuration)
+            }
         }
     }
 }
