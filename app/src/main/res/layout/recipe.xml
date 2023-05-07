@@ -36,25 +36,54 @@
                 android:id="@+id/text_ingredients"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:foregroundGravity="center"
+                android:gravity="center"
+                android:lineSpacingExtra="8sp"
                 android:padding="16dp"
+                android:selectAllOnFocus="true"
+                android:shadowColor="#673AB7"
                 android:text="Ingredients:"
-                android:textSize="16sp" />
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <!-- Ingredients List -->
+            <View
+                android:layout_width="300dp"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                android:translationX="50dp" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview_ingredients"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false" />
+                android:contextClickable="true"
+                android:nestedScrollingEnabled="false"
+                android:textAlignment="center"
+                android:textDirection="locale" />
 
             <!-- Steps -->
             <TextView
                 android:id="@+id/text_steps"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:foregroundGravity="center"
+                android:gravity="center"
                 android:padding="16dp"
+                android:selectAllOnFocus="true"
+                android:shadowColor="#673AB7"
                 android:text="Steps:"
-                android:textSize="16sp" />
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="300dp"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                android:translationX="50dp" />
 
             <!-- Steps List -->
             <androidx.recyclerview.widget.RecyclerView
@@ -62,6 +91,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false" />
+
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab_send"

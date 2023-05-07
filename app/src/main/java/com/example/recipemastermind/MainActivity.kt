@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
         imageView.visibility = View.VISIBLE
 
         // Create an ObjectAnimator to animate the rotation property
-        val animator = ObjectAnimator.ofFloat(imageView, "rotation", 0f, 720f)
+        val animator = ObjectAnimator.ofFloat(imageView, "rotation", 0f, 728f)
 
         // Set the duration of the animation (in milliseconds)
         animator.duration = 2000
