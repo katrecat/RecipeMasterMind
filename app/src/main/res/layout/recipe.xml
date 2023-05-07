@@ -63,6 +63,21 @@
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false" />
 
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/fab_send"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:contentDescription="Send"
+                android:elevation="6dp"
+                android:rotation="270"
+                android:rotationX="0"
+                android:src="@drawable/ic_send"
+                android:translationX="300dp" />
+
         </LinearLayout>
 
     </ScrollView>
@@ -111,6 +126,7 @@
 
     </LinearLayout>
 
+    <!-- Floating Action Button -->
 
 
 </RelativeLayout>
