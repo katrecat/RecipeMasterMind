@@ -3,6 +3,7 @@ package com.velmurugan.cardviewandroidkotlin
 import CountdownTimer
 import TimePickerFragment
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.recipemastermind.R
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+
 
 class SecondActivity : AppCompatActivity() {
     private lateinit var recipeNameTextView: TextView
@@ -64,6 +67,7 @@ class SecondActivity : AppCompatActivity() {
         val stepsAdapter = StepsAdapter(stepsList)
         stepsRecyclerView.adapter = stepsAdapter
 
+        //Countdown logic
         countdownTimer = CountdownTimer(0, 1000, context) // Pass the context parameter
 
         buttonStartPause.setOnClickListener {
@@ -79,6 +83,18 @@ class SecondActivity : AppCompatActivity() {
 
                 countdownTimer.start(textViewCountdown, buttonStartPause, buttonStop)
             }
+        }
+
+        //FAB button logic
+        val fabShare: FloatingActionButton = findViewById(R.id.fab_send)
+        fabShare.setOnClickListener {
+            val ingredientsText = ingredientsList.joinToString(separator = "\n")
+            val sendIntent = Intent(Intent.ACTION_SEND)
+            sendIntent.type = "text/plain"
+            sendIntent.putExtra(Intent.EXTRA_TEXT, ingredientsText)
+
+            val shareIntent = Intent.createChooser(sendIntent, null)
+            startActivity(shareIntent)
         }
 
         buttonStop.setOnClickListener {
