@@ -1,13 +1,33 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    android:background="@android:color/white">
+    android:background="#33AB8DDF"
+    tools:context=".MainActivity">
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:background="@android:color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/recyclerview_adapter_layout"/>
-</LinearLayout>
+        android:layout_above="@+id/imageView"
+        android:background="@android:color/white"
+        tools:listitem="@layout/recyclerview_adapter_layout" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="105dp"
+        android:layout_marginTop="260dp"
+        android:layout_marginEnd="105dp"
+        android:layout_marginBottom="260dp"
+        android:backgroundTint="#BED0BDEC"
+        android:foregroundGravity="center"
+        android:src="@drawable/meal3"
+        android:visibility="visible" />
+
+</RelativeLayout>

@@ -1,10 +1,15 @@
 package com.example.recipemastermind
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.animation.ObjectAnimator
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.animation.LinearInterpolator
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,11 +29,13 @@ class MainActivity : AppCompatActivity() {
     private var recyclerView: RecyclerView? = null
     private var recyclerViewAdapter: RecyclerViewAdapter? = null
     private var movieList = mutableListOf<Movie>()
+    private lateinit var imageView: ImageView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        imageView = findViewById(R.id.imageView)
         movieList = ArrayList()
         recyclerView = findViewById<View>(R.id.recyclerView) as RecyclerView
         recyclerViewAdapter = RecyclerViewAdapter(movieList)
@@ -54,7 +61,30 @@ class MainActivity : AppCompatActivity() {
         val firebase : DatabaseReference = FirebaseDatabase.getInstance().getReference()
 
         recyclerView!!.adapter = recyclerViewAdapter
+        startAnimation()
         prepareMovie()
+    }
+    private fun startAnimation() {
+        // Set the visibility of the ImageView to VISIBLE
+        imageView.visibility = View.VISIBLE
+
+        // Create an ObjectAnimator to animate the rotation property
+        val animator = ObjectAnimator.ofFloat(imageView, "rotation", 0f, 720f)
+
+        // Set the duration of the animation (in milliseconds)
+        animator.duration = 2000
+
+        // Set the interpolator for linear animation
+        animator.interpolator = LinearInterpolator()
+
+        animator.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator) {
+                // Set the visibility of the ImageView to INVISIBLE
+                imageView.visibility = View.GONE
+            }
+        })
+        // Start the animation
+        animator.start()
     }
     private fun prepareMovie() {
         val database = Firebase.database.reference

@@ -25,8 +25,8 @@ class SecondActivity : AppCompatActivity() {
     private lateinit var textViewCountdown: TextView
     private lateinit var buttonStartPause: Button
     private lateinit var buttonStop: Button
-    private lateinit var customTime: String // Add this variable to store the custom time
-    private lateinit var context: Context // Add this variable to store the context
+    private lateinit var customTime: String
+    private lateinit var context: Context
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
