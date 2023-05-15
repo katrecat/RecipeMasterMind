@@ -1,15 +1,10 @@
 package com.example.recipemastermind
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.ObjectAnimator
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.animation.LinearInterpolator
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,17 +15,14 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import com.velmurugan.cardviewandroidkotlin.ClickListener
-import com.velmurugan.cardviewandroidkotlin.RecyclerViewAdapter
 import com.velmurugan.cardviewandroidkotlin.SecondActivity
-import org.w3c.dom.Text
 
 
 class RecipeActivity : AppCompatActivity() {
     private var recyclerView: RecyclerView? = null
     private var recyclerViewAdapter: RecyclerViewAdapter? = null
     private var categoryRecyclerViewAdapter: CategoriesRecyclerViewAdapter? = null
-    private var movieList = mutableListOf<Movie>()
+    private var recipeList = mutableListOf<Recipe>()
     private var categoryList = mutableListOf<Categories>()
     private var category: String? = null
 
@@ -40,16 +32,16 @@ class RecipeActivity : AppCompatActivity() {
         setContentView(R.layout.recipe_list)
 
         category = intent.getStringExtra("category_name")
-        movieList = ArrayList()
+        recipeList = ArrayList()
         categoryList = ArrayList()
         recyclerView = findViewById<View>(R.id.recyclerView) as RecyclerView
-        recyclerViewAdapter = RecyclerViewAdapter(movieList)
+        recyclerViewAdapter = RecyclerViewAdapter(recipeList)
         categoryRecyclerViewAdapter = CategoriesRecyclerViewAdapter(categoryList)
         val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
         recyclerView!!.layoutManager = layoutManager
 
-        recyclerViewAdapter!!.setOnItemClickListener(object : ClickListener<Movie> {
-            override fun onItemClick(data: Movie, view: View) {
+        recyclerViewAdapter!!.setOnItemClickListener(object : ClickListener<Recipe> {
+            override fun onItemClick(data: Recipe, view: View) {
                 if (view.id == R.id.image) {
                     val intent = Intent(this@RecipeActivity, SecondActivity::class.java)
                     intent.putExtra("recipeName", data.title)
@@ -102,8 +94,8 @@ class RecipeActivity : AppCompatActivity() {
                             stepsList.add(step)
                         }
 
-                        val movie = Movie(recipeName, imageURL, ingredientsList, stepsList)
-                        movieList.add(movie)
+                        val recipe = Recipe(recipeName, imageURL, ingredientsList, stepsList)
+                        recipeList.add(recipe)
                     }
                 }
                 recyclerViewAdapter?.notifyDataSetChanged()

@@ -8,9 +8,6 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.velmurugan.cardviewandroidkotlin.ClickListener
-import com.example.recipemastermind.Categories
-import com.example.recipemastermind.R
 
 class CategoriesRecyclerViewAdapter(private val categoryList: List<Categories>) :
     RecyclerView.Adapter<CategoriesRecyclerViewAdapter.MyViewHolder>() {

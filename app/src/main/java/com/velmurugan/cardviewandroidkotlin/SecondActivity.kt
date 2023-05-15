@@ -2,6 +2,7 @@ package com.velmurugan.cardviewandroidkotlin
 
 import CountdownTimer
 import TimePickerFragment
+import android.annotation.SuppressLint
 import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
@@ -15,7 +16,6 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -36,9 +36,9 @@ class SecondActivity : AppCompatActivity() {
     private lateinit var textViewCountdown: TextView
     private lateinit var buttonStartPause: Button
     private lateinit var buttonStop: Button
-    private lateinit var customTime: String
     private lateinit var context: Context
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.recipe)

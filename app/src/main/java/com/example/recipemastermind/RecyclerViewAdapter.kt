@@ -1,6 +1,5 @@
-package com.velmurugan.cardviewandroidkotlin
+package com.example.recipemastermind
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,15 +8,13 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import com.example.recipemastermind.Movie
-import com.example.recipemastermind.R
-import com.velmurugan.cardviewandroidkotlin.RecyclerViewAdapter.MyViewHolder
+import com.example.recipemastermind.RecyclerViewAdapter.MyViewHolder
 import com.bumptech.glide.Glide
 
 
-class RecyclerViewAdapter constructor(private val movieList: List<Movie>) :
+class RecyclerViewAdapter constructor(private val recipeList: List<Recipe>) :
     RecyclerView.Adapter<MyViewHolder>() {
-    private var clickListener: ClickListener<Movie>? = null
+    private var clickListener: ClickListener<Recipe>? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.recyclerview_adapter_layout, parent, false)
@@ -25,31 +22,28 @@ class RecyclerViewAdapter constructor(private val movieList: List<Movie>) :
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val movie = movieList[position]
-        holder.title.text = movie.title
-        //holder.image.setBackgroundResource(movie.image)
+        val recipe = recipeList[position]
+        holder.title.text = recipe.title
         Glide.with(holder.itemView.context)
-            .load(movie.image)
+            .load(recipe.image)
             .centerCrop()
             .override(holder.itemView.width, holder.itemView.height)
             .into(holder.image)
 
-        // Определить ImageButton и назначить ему слушателя нажатия
         holder.cardView.setOnClickListener {
-            clickListener?.onItemClick(movie, holder.itemView)
+            clickListener?.onItemClick(recipe, holder.itemView)
         }
         holder.image.setOnClickListener {
-            clickListener?.onItemClick(movie, it)
+            clickListener?.onItemClick(recipe, it)
         }
     }
 
-
     override fun getItemCount(): Int {
-        return movieList.size
+        return recipeList.size
     }
 
-    fun setOnItemClickListener(movieClickListener: ClickListener<Movie>?) {
-        clickListener = movieClickListener
+    fun setOnItemClickListener(recipeClickListener: ClickListener<Recipe>?) {
+        clickListener = recipeClickListener
     }
 
     inner class MyViewHolder(itemView: View) : ViewHolder(itemView) {
