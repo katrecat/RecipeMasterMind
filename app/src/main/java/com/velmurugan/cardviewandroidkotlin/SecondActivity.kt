@@ -2,16 +2,24 @@ package com.velmurugan.cardviewandroidkotlin
 
 import CountdownTimer
 import TimePickerFragment
+import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.transition.Fade
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -41,6 +49,9 @@ class SecondActivity : AppCompatActivity() {
         val ingredientsList = ingredientsArray?.toList() ?: emptyList<String>()
         val stepsArray = intent.getStringArrayExtra("steps")
         val stepsList = stepsArray?.toList() ?: emptyList<String>()
+
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        setSupportActionBar(toolbar)
 
         context = this // Store the context of the activity
 
@@ -85,6 +96,8 @@ class SecondActivity : AppCompatActivity() {
             }
         }
 
+
+
         //FAB button logic
         val fabShare: FloatingActionButton = findViewById(R.id.fab_send)
         fabShare.setOnClickListener {
@@ -111,6 +124,30 @@ class SecondActivity : AppCompatActivity() {
     }
 
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_refresh -> {
+                // Create a fade-out transition animation
+                val fadeOut = Fade(Fade.OUT)
+                window.exitTransition = fadeOut
+
+                // Start the activity again after a short delay to allow the fade-out animation to play
+                Handler(Looper.getMainLooper()).postDelayed({
+                    val intent = intent
+                    finishAfterTransition() // Start the fade-out transition
+                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle())
+                }, 200)
+
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
 
     private inner class IngredientsAdapter(private val ingredientsList: List<String>) :
         RecyclerView.Adapter<IngredientsAdapter.ViewHolder>() {
