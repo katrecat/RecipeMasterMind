@@ -9,3 +9,8 @@ data class Ingredient(
 data class Steps(
     var step: String = ""
 )
+
+data class Categories(
+    var category_name: String,
+    var imageURL: String,
+)

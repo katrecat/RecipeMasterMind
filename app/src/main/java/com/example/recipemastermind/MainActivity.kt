@@ -25,10 +25,13 @@ import com.velmurugan.cardviewandroidkotlin.RecyclerViewAdapter
 import com.velmurugan.cardviewandroidkotlin.SecondActivity
 
 
+
 class MainActivity : AppCompatActivity() {
     private var recyclerView: RecyclerView? = null
     private var recyclerViewAdapter: RecyclerViewAdapter? = null
+    private var categoryRecyclerViewAdapter: CategoriesRecyclerViewAdapter? = null
     private var movieList = mutableListOf<Movie>()
+    private var categoryList = mutableListOf<Categories>()
     private lateinit var imageView: ImageView
 
 
@@ -37,32 +40,46 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         imageView = findViewById(R.id.imageView)
         movieList = ArrayList()
+        categoryList = ArrayList()
         recyclerView = findViewById<View>(R.id.recyclerView) as RecyclerView
         recyclerViewAdapter = RecyclerViewAdapter(movieList)
+        categoryRecyclerViewAdapter = CategoriesRecyclerViewAdapter(categoryList)
         val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
         recyclerView!!.layoutManager = layoutManager
-        recyclerViewAdapter!!.setOnItemClickListener(object : ClickListener<Movie> {
 
-            override fun onItemClick(data: Movie, view: View) {
+//        recyclerViewAdapter!!.setOnItemClickListener(object : ClickListener<Movie> {
+//            override fun onItemClick(data: Movie, view: View) {
+//                if (view.id == R.id.image) {
+//                    val intent = Intent(this@MainActivity, SecondActivity::class.java)
+//                    intent.putExtra("recipeName", data.title)
+//                    intent.putExtra("imageURL", data.image)
+//                    intent.putExtra("ingredients", data.ingredients.map { it.name}.toTypedArray())
+//                    intent.putExtra("steps", data.steps.map { it.step }.toTypedArray())
+//                    startActivity(intent)
+//                } else {
+//                    Toast.makeText(this@MainActivity, data.title, Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//
+//        })
+        categoryRecyclerViewAdapter!!.setOnItemClickListener(object : ClickListener<Categories> {
+            override fun onItemClick(data: Categories, view: View) {
                 if (view.id == R.id.image) {
-                    val intent = Intent(this@MainActivity, SecondActivity::class.java)
-                    intent.putExtra("recipeName", data.title)
-                    intent.putExtra("imageURL", data.image)
-                    intent.putExtra("ingredients", data.ingredients.map { it.name}.toTypedArray())
-                    intent.putExtra("steps", data.steps.map { it.step }.toTypedArray())
+                    val intent = Intent(this@MainActivity, RecipeActivity::class.java)
+                    intent.putExtra("category_name", data.category_name)
                     startActivity(intent)
                 } else {
-                    Toast.makeText(this@MainActivity, data.title, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@MainActivity, data.category_name, Toast.LENGTH_SHORT).show()
                 }
             }
-
         })
 
         val firebase : DatabaseReference = FirebaseDatabase.getInstance().getReference()
 
-        recyclerView!!.adapter = recyclerViewAdapter
+        recyclerView!!.adapter = categoryRecyclerViewAdapter
         startAnimation()
-        prepareMovie()
+        //prepareMovie()
+        prepareCategories()
     }
     private fun startAnimation() {
         // Set the visibility of the ImageView to VISIBLE
@@ -125,6 +142,33 @@ class MainActivity : AppCompatActivity() {
             }
         })
     }
+    private fun prepareCategories() {
+        val database = Firebase.database.reference
+        val categoriesRef = database.child("recipe").child("-NVUd0dYe6D6Sfz1nmss")
+        categoriesRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    for (categorySnapshot in dataSnapshot.children) {
+                        val categoryName = categorySnapshot.child("category_name").value.toString()
+                        val image = categorySnapshot.child("imageURL").value.toString()
+                        val category = Categories(categoryName, image)
+                        categoryList.add(category)
+                    }
+                    categoryRecyclerViewAdapter?.notifyDataSetChanged()
+                } else {
+                    // No data found at the specified path
+                    Toast.makeText(applicationContext, "No categories found", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                Log.e("Firebase", "Error reading data from Firebase", databaseError.toException())
+                // Display error message on screen
+                Toast.makeText(applicationContext, "Error reading data from Firebase", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
 
 }
 
