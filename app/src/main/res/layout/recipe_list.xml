@@ -7,6 +7,7 @@
     tools:context=".MainActivity"
     tools:visibility="visible">
 
+
     <TextView
         android:id="@+id/textView3"
         android:layout_width="match_parent"
@@ -14,39 +15,19 @@
         android:fontFamily="sans-serif"
         android:gravity="center"
         android:shadowColor="#B594CB"
-        android:text="Chose category:"
+        android:text="Chose receipe:"
         android:textSize="26dp"
-        android:textStyle="bold"
-        android:layout_above="@+id/imageView"
-        />
+        android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/imageView"
         android:layout_marginTop="50dp"
         android:background="@android:color/white"
         android:visibility="visible"
         tools:listitem="@layout/recyclerview_adapter_layout"
-        tools:visibility="visible"/>
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="105dp"
-        android:layout_marginTop="260dp"
-        android:layout_marginEnd="105dp"
-        android:layout_marginBottom="260dp"
-        android:backgroundTint="#BED0BDEC"
-        android:foregroundGravity="center"
-        android:src="@drawable/meal3"
-        android:visibility="visible"
         tools:visibility="visible" />
+
 
 </RelativeLayout>
