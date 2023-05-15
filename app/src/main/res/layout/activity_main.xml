@@ -3,7 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#33AB8DDF"
-    tools:context=".MainActivity">
+    android:visibility="visible"
+    tools:context=".MainActivity"
+    tools:visibility="visible">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -11,7 +13,9 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/imageView"
         android:background="@android:color/white"
-        tools:listitem="@layout/recyclerview_adapter_layout" />
+        android:visibility="visible"
+        tools:listitem="@layout/recyclerview_adapter_layout"
+        tools:visibility="visible"/>
 
     <ImageView
         android:id="@+id/imageView"
@@ -28,6 +32,7 @@
         android:backgroundTint="#BED0BDEC"
         android:foregroundGravity="center"
         android:src="@drawable/meal3"
-        android:visibility="visible" />
+        android:visibility="visible"
+        tools:visibility="visible" />
 
 </RelativeLayout>
