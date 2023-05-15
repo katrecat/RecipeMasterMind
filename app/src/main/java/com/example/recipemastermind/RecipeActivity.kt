@@ -32,17 +32,14 @@ class RecipeActivity : AppCompatActivity() {
     private var categoryRecyclerViewAdapter: CategoriesRecyclerViewAdapter? = null
     private var movieList = mutableListOf<Movie>()
     private var categoryList = mutableListOf<Categories>()
-    private lateinit var imageView: ImageView
     private var category: String? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.recipe_list)
 
         category = intent.getStringExtra("category_name")
-        imageView = findViewById(R.id.imageView)
-        imageView.visibility = View.GONE
         movieList = ArrayList()
         categoryList = ArrayList()
         recyclerView = findViewById<View>(R.id.recyclerView) as RecyclerView
